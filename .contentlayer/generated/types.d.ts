@@ -15,7 +15,7 @@ export type Article = {
   type: 'Article'
   title: string
   date: IsoDateTimeString
-  image?: string | undefined
+  image: string
   excerpt: string
   tags?: string[] | undefined
   /** MDX file body */
