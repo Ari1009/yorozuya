@@ -11,9 +11,14 @@
 
 
 ## About The Project
+![1](https://github.com/Ari1009/yorozuya/blob/main/public/sc1.png)
+![2](https://github.com/Ari1009/yorozuya/blob/main/public/sc2.png)
+![3](https://github.com/Ari1009/yorozuya/blob/main/public/sc3.png)
+![4](https://github.com/Ari1009/yorozuya/blob/main/public/sc4.png)
 
 
-A Personal blog website with beautiful UI
+
+A Personal blog website with beautiful a UI
 
 ## Built With
 
