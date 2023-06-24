@@ -7,10 +7,11 @@ tags:
 - TypeScript
 - Tricks
 ---
-# Why TypeScript?
+# Why TypeScript
+
 As a React developer, you’re likely familiar with the benefits of using a statically-typed language like TypeScript. TypeScript offers a type system that helps catch errors early, making it easier to write more reliable code faster. In a React context, TypeScript can also provide additional benefits such as improved code maintainability and extensibility. If you’re new to TypeScript, it’s a superset of JavaScript that adds optional static types to your code. This means that you can catch errors before your code runs, which can save you time and improve the quality of your codebase.
 
-## ComponentProps utility type:
+## ComponentProps utility type
 
 A common pattern in React is to create a component that takes props as an argument. TypeScript provides a utility type called ComponentProps, which automatically extracts the props type from a given component. This saves you time and helps avoid errors when defining a component’s props.
 
@@ -58,7 +59,8 @@ function App() {
 ```
 In this example, we’re using the _`ComponentProps`_ utility type to define the props for a custom _`CustomButton`_ component that extends the functionality of the native button element. By passing the _`onClick`_ prop to _`CustomButton`_, we're able to handle the button click event and log a message to the console. The _`...props`_ syntax allows us to pass any additional props to the underlying button element, such as _`className`_ or _`disabled`_ and if we tried to pass an invalid prop to the _`CustomButton`_ element, Typescript will throw an error.
 
-## Union Types:
+## Union Types
+
 Another useful TypeScript feature is the ability to use union types with _`useReducer`_. This allows you to define a state type that can have multiple variations. For example, you can specify the type of action and the exact payload key expected
 ```javascript test.jsx
 import { useReducer } from "react";
@@ -109,7 +111,7 @@ export const Reducer = () => {
   );
 };
 ```
-## Excess Properties & Explicit Typing:
+## Excess Properties and Explicit Typing
 
 Finally, TypeScript provides a way to strongly type the functions returned by _`useState`_. This helps ensure that you’re using the correct type when updating the state and provide better error handling.
 
