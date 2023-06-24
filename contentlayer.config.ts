@@ -21,7 +21,7 @@ export const Article = defineDocumentType(() => ({
     fields: {
         title: { type: 'string', required: true },
         date: { type: 'date', required: true },
-        image: { type: 'string', required: false },
+        image: { type: 'string', required: false, default: '' },
         excerpt: { type: 'string', required: false, default: "No excerpt provided" },
         tags: { type: 'list', of: { type: 'string' }, required: false },
     },
