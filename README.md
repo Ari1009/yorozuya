@@ -1,34 +1,37 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next Sakurairo
 
-## Getting Started
+This is a blog built with Next.js, Tailwind CSS, Radix UI, Framer Motion, and ContentLayer with MDX. 
 
-First, run the development server:
+The appearance is inspired by WordPress theme [Sakura](https://github.com/mashirozx/sakura) and [Sakurairo](https://github.com/mirai-mamori/Sakurairo)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+This is a work in progress.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Todo
+- [x] Use Next.js 13 app directory
+- [x] Mdx file directory under base directory
+- [ ] Appearance
+  - [x] Header
+  - [x] Footer
+  - [x] Landing page
+  - [x] Article page
+  - [x] 404 page
+  - [x] Template pages
+  - [x] Theme switch
+  - [ ] Scroll bar
+  - [x] Animation
+  - [x] Better prose style
+- [ ] Multi-level navigation
+- [x] Search function
+- [x] Tagging function
+- [ ] TOC generation for articles
+  - [x] Basic TOC generation
+  - [ ] Highlight current section heading ...?
+- [x] Use [giscus](https://giscus.app/) for comments
+- [x] OG generator
+  - [ ] Option for AI generated description...?
+- [ ] Loading components
+- [x] Configs
+- [ ] Documentation
+  - [ ] Customization
+  - [ ] Deployment
+- [ ] and more...

@@ -1,0 +1,160 @@
+---
+title: Async For Each ~ Synchronously Run a Promise on Each Element of an Array
+date: 2023-06-23
+image: /cover/1.jpg
+excerpt: JavaScript asynch explanation
+tags:
+- Tricks
+- JavaScript
+---
+# Getting Started
+
+Let’s say you have an array, and you need to run a promise on each of its element synchronously, like this
+
+```javascript index.js 
+const apiList = [
+  "https://pokeapi.co/api/v2/pokemon/1/",
+  "https://pokeapi.co/api/v2/pokemon/2/",
+  "https://pokeapi.co/api/v2/pokemon/3/",
+  "https://pokeapi.co/api/v2/pokemon/4/",
+  "https://pokeapi.co/api/v2/pokemon/5/",
+];
+
+apiList.forEach(endpoint => {Get pokemon from https://pokeapi.co/api/v2/pokemon/1/
+Get pokemon from https://pokeapi.co/api/v2/pokemon/2/
+Get pokemon from https://pokeapi.co/api/v2/pokemon/3/
+Get pokemon from https://pokeapi.co/api/v2/pokemon/4/
+Get pokemon from https://pokeapi.co/api/v2/pokemon/5/
+Script finished...
+Pokemon: ivysaur with id: 2
+Pokemon: bulbasaur with id: 1
+Pokemon: charmeleon with id: 5
+Pokemon: venusaur with id: 3
+Pokemon: charmander with id: 4
+  console.log(`Get pokemon from ${endpoint}`);
+  fetch(endpoint)
+    .then(res => res.json())
+    .then(data => console.log(`Pokemon: ${data.name} with id: ${data.id}`));
+});
+
+console.log("Script finished...");
+```
+When you run that script, you get this output
+
+```js
+Get pokemon from https://pokeapi.co/api/v2/pokemon/1/
+Get pokemon from https://pokeapi.co/api/v2/pokemon/2/
+Get pokemon from https://pokeapi.co/api/v2/pokemon/3/
+Get pokemon from https://pokeapi.co/api/v2/pokemon/4/
+Get pokemon from https://pokeapi.co/api/v2/pokemon/5/
+Script finished...
+Pokemon: ivysaur with id: 2
+Pokemon: bulbasaur with id: 1
+Pokemon: charmeleon with id: 5
+Pokemon: venusaur with id: 3
+Pokemon: charmander with id: 4
+```
+Notice that, we run the promise, in this case fetch asynchronously. even though we modify the script to use async await like code below, it doesn’t matter it will give the same result
+
+```javascript index.js
+apiList.forEach(async endpoint => {
+  console.log(`Get pokemon from ${endpoint}...`);
+  await fetch(endpoint)
+    .then(res => res.json())
+    .then(data => console.log(`Pokemon: ${data.name} with id: ${data.id}`));
+});
+```
+Still get the same output right??, now how to run it synchronously??.
+
+## Run It Synchronously
+
+Instead using _`Array.forEach`_ we can use _`for`_ loop like this
+
+```javascript index.js
+(async () => {
+  for (let index = 0; index < apiList.length; index++) {
+    console.log(`Get pokemon from ${apiList[index]}...`);
+    await fetch(apiList[index])
+      .then(res => res.json())
+      .then(data => console.log(`Pokemon: ${data.name} with id: ${data.id}`));
+  }
+  console.log("Finished");
+})();
+```
+
+>this code is the trick to run async await in top level javascript file.
+
+```javascript
+// mark(1,3)
+(async () => {
+  // your async await code
+})();
+```
+you get output like this, which means it run synchronously or sequential one by one.
+
+```javascript
+Get pokemon from https://pokeapi.co/api/v2/pokemon/1/...
+Pokemon sync: bulbasaur with id: 1
+Get pokemon from https://pokeapi.co/api/v2/pokemon/2/...
+Pokemon sync: ivysaur with id: 2
+Get pokemon from https://pokeapi.co/api/v2/pokemon/3/...
+Pokemon sync: venusaur with id: 3
+Get pokemon from https://pokeapi.co/api/v2/pokemon/4/...
+Pokemon sync: charmander with id: 4
+Get pokemon from https://pokeapi.co/api/v2/pokemon/5/...
+Pokemon sync: charmeleon with id: 5
+Finished
+```
+But that is not at all pretty☺
+
+## The Better Code
+
+Okay, let’s make it better by creating a function and callback like this
+
+```javascript 
+const asyncForEach = async (array, callback) => {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+};
+```
+Now your script gonna look like this
+
+```javascript index.js
+(async () => {
+  await asyncForEach(apiList, async endpoint => {
+    console.log(`Get pokemon from ${endpoint}...`);
+    await fetch(endpoint)
+      .then(res => res.json())
+      .then(data => console.log(`Pokemon: ${data.name} with id: ${data.id}`));
+  });
+  console.log("Finished");
+})();
+```
+
+Much better, and it’s work
+
+```javascript 
+Get pokemon from https://pokeapi.co/api/v2/pokemon/1/...
+Pokemon: bulbasaur with id: 1
+Get pokemon from https://pokeapi.co/api/v2/pokemon/2/...
+Pokemon: ivysaur with id: 2
+Get pokemon from https://pokeapi.co/api/v2/pokemon/3/...
+Pokemon: venusaur with id: 3
+Get pokemon from https://pokeapi.co/api/v2/pokemon/4/...
+Pokemon: charmander with id: 4
+Get pokemon from https://pokeapi.co/api/v2/pokemon/5/...
+Pokemon: charmeleon with id: 5
+Finished
+```
+## Typescript~version
+Oh you need the typescript version??, here we go
+```typescript index.ts
+const asyncForEach = async <T>(
+  array: T[],
+  callback: (item: T, index: number, array: T[]) => Promise<void>
+) => {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+};

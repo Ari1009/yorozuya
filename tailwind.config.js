@@ -1,3 +1,5 @@
+import { blogConfig } from "./config";
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -5,6 +7,7 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  darkMode: "class",
   theme: {
     extend: {
       backgroundImage: {
@@ -12,7 +15,23 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      colors: {
+        primary_color: {
+          DEFAULT: blogConfig.colors.primary_color.light,
+          dark: blogConfig.colors.primary_color.dark
+        },
+        secondary_color: {
+          DEFAULT: blogConfig.colors.secondary_color.light,
+          dark: blogConfig.colors.secondary_color.dark
+        },
+        accent_color: {
+          DEFAULT: blogConfig.colors.accent_color.light,
+          dark: blogConfig.colors.accent_color.dark
+        }
+      }
     },
   },
-  plugins: [],
+  plugins: [
+      require('@tailwindcss/typography'),
+  ],
 }

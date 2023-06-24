@@ -1,6 +1,6 @@
 import { BlogConfig } from "@/config/type";
 const { createElement } = require("react");
-import { AcademicCapIcon, Square3Stack3DIcon } from "@heroicons/react/24/solid";
+import { MusicalNoteIcon, PhoneIcon } from "@heroicons/react/24/solid";
 const colors = require("tailwindcss/colors");
 
 
@@ -8,6 +8,7 @@ const colors = require("tailwindcss/colors");
  * Configure file for the blog.
  *
  */
+//const randomNumber = Math.floor(Math.random() * 8) + 1;
 
 export const blogConfig: BlogConfig = {
     url: '',
@@ -19,19 +20,19 @@ export const blogConfig: BlogConfig = {
 
     navigation: [
         {
-            title: "Item 1",
-            href: "#"
+            title: "Github",
+            href: "https://github.com/Ari1009"
         },
         {
-            title: "Item 2",
-            href: "#"
+            title: "LinkedIn",
+            href: "https://www.linkedin.com/in/arihant-pal-2b8714228/"
         }
     ],
-
+    
     background_image: {
         option: "APIBackgroundImage",
         settings: {
-            url: "https://www.loliapi.com/acg/pc",
+            url: "/img/"+ (Math.floor(Math.random() * 6) + 1) +".jpg" ,
             filter: "grid"
         }
     },
@@ -39,7 +40,7 @@ export const blogConfig: BlogConfig = {
     hero: {
         option: "IconHero",
         settings: {
-            icon_path: "/logo.png"
+            icon_path: "/ele.png"
         }
     },
 
@@ -55,14 +56,14 @@ export const blogConfig: BlogConfig = {
 
     social: [
         {
-            title: "GitHub",
-            icon: createElement(Square3Stack3DIcon),
-            href: "https://github.com"
+            title: "Mail",
+            icon: createElement(PhoneIcon),
+            href: "mailto:arihant0pal@gmail.com"
         },
         {
-            title: "Twitter",
-            icon: createElement(AcademicCapIcon),
-            href: "https://twitter.com"
+            title: "Spotify",
+            icon: createElement(MusicalNoteIcon),
+            href: "https://open.spotify.com/playlist/37i9dQZF1DX0hAXqBDwvwI"
         }
     ],
 
@@ -73,8 +74,8 @@ export const blogConfig: BlogConfig = {
 
         },
         secondary_color: {
-            light: colors.red[400],
-            dark: colors.red[600]
+            light: colors.cyan[400],
+            dark: colors.cyan[600]
         },
         accent_color: {
             light: colors.pink[400],
