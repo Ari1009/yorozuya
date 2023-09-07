@@ -1,0 +1,102 @@
+---
+title: Mastering Shell Scripting- Cheat script to automation
+date: 2023-09-07
+image: /cover/4.jpg
+excerpt: 
+tags:
+- Tricks
+- Shell
+---
+
+# Intro
+
+Bash is a powerful scripting language used in the Linux terminal to automate tasks and perform various operations. Here are some essential commands and concepts to help you get started with Bash scripting.
+
+
+## Creating a script:
+
+Create a file name whatever you want. But, make sure it ends with .sh. Open that file in your favorite text editor and write the first line to begin your shell script journey.
+```my_script.sh
+#! /bin/bash
+
+```
+The #! /bin/bash line is called the shebang or hashbang, and it is used to specify the interpreter to be used for executing the script. In this case, #!/bin/bash indicates that the script should be interpreted and executed using the Bash shell.
+
+## Running the script:
+
+Open your terminal and go to the directory where you created the script file. Then run the below command to execute the script
+```
+./my_script.sh
+```
+At this stage, you won't see any output since we have not written anything. Let's add some fun stuff.
+
+## Display statements:
+You can use the echo command to print statements or messages in the terminal. For example:
+```
+echo Hello World
+```
+You will see Hello World in your terminal
+
+## Variables:
+
+You can assign values to variables in Bash using the assignment operator (=). Variable names are usually uppercase by convention and can contain letters, numbers, and underscores. Here's an example:
+```
+NAME="Kite"
+echo "My name is $NAME"
+```
+## User input:
+To read user input in Bash, you can use the read command. It prompts you to enter a value and stores it in a variable. For example:
+```
+read -p "Enter your name: " NAME
+echo "Hello $NAME, nice to meet you!s"
+```
+Gives you the following output.
+```
+Enter your name: Kite
+Hello Kite, nice to meet you!s
+```
+## Conditional Statements:
+
+Bash supports various conditional statements to control the flow of your script. Here are a few examples:
+
+### Simple If Statement:
+```
+if [ "$NAME" == "Kite" ]
+then
+  echo "Your name is Kite"
+fi
+```
+
+### If Statement with Else:
+```
+if [ "$NAME" == "Kite" ]
+then
+  echo "Your name is Kite"
+else
+  echo "Your name is not Kite"
+fi
+```
+
+### Else If Statement:
+```
+if [ "$NAME" == "Kite" ]
+then
+  echo "Your name is Kite"
+elif [ "$NAME" == "Jack" ]
+then
+  echo "Your name is Jack"
+else
+  echo "Your name is NOT Kite or Jack"
+fi
+```
+Below is an example of comparing two numbers using -gt operator in the shell script
+```
+NUM1=3 
+NUM2=5
+if [ "$NUM1" -gt "$NUM2" ] 
+then 
+    echo "$NUM1 is greater than $NUM2"
+else 
+    echo "$NUM1 is less than $NUM2"
+fi
+```
