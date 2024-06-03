@@ -1,0 +1,326 @@
+---
+title: Go concurrency
+date: 2023-06-23
+image: /cover/1.jpg
+excerpt: Go concurrency
+tags:
+- Tricks
+- Go
+---
+
+## Getting Started
+
+In Go you can use a goKeywords make the program execute asynchronously
+
+A more common scenario: calling multiple functions asynchronously one by one, or calling them asynchronously in a loop  
+
+```go test.go
+
+func main() {
+
+	go do1()
+	
+	go do2()
+	
+	go do3()
+
+}
+
+// 或者
+
+func main() {
+
+for i := range []int{1,2,3}{
+
+	go do(i)
+
+}
+
+}
+
+
+```
+If you understand the Go concurrency mechanism, you will know mainIt has ended before other goroutines have finished running, so the results of the above code are not as expected. We need to use a method called concurrency control to ensure that the program runs correctly
+
+for example:
+
+It is known that there is a ready-made function search, able to perform searches based on keywords
+
+Expect to implement a new function coSearchAbility to perform batch queries 
+
+```go 
+package main
+
+  
+
+import (
+
+"context"
+
+"errors"
+
+"fmt"
+
+"sync"
+
+)
+
+  
+
+func search(ctx context.Context, word string) (string, error) {
+
+if word == "Go" {
+
+return "", errors.New("error: Go") // 模拟结果
+
+}
+
+return fmt.Sprintf("result: %s", word), nil // 模拟结果
+
+}
+
+  
+
+func coSearch(ctx context.Context, words []string) (results []string, err error) {
+
+//tbd
+
+  
+
+return
+
+}
+
+  
+
+func main() {
+
+words := []string{"Go", "Rust", "PHP", "JavaScript", "Java"}
+
+results, err := coSearch(context.Background(), words)
+
+if err != nil {
+
+fmt.Println(err)
+
+return
+
+}
+
+  
+
+fmt.Println(results)
+
+}
+
+```
+
+
+## Control basics
+
+sync.WaitGroupIt is a structure used to control concurrency in the Go standard library. Here is one for use WaitGroupaccomplish coSearchExample of
+```go
+
+package main
+
+  
+
+import (
+
+"context"
+
+"errors"
+
+"fmt"
+
+"sync"
+
+)
+
+  
+
+func search(ctx context.Context, word string) (string, error) {
+
+if word == "Go" {
+
+return "", errors.New("error: Go") // 模拟结果
+
+}
+
+return fmt.Sprintf("result: %s", word), nil // 模拟结果
+
+}
+
+  
+
+func coSearch(ctx context.Context, words []string) ([]string, error) {
+
+var (
+
+wg = sync.WaitGroup{}
+
+once = sync.Once{}
+
+results = make([]string, len(words))
+
+err error
+
+)
+
+  
+
+for i, word := range words {
+
+wg.Add(1)
+
+  
+
+go func(word string, i int) {
+
+defer wg.Done()
+
+  
+
+result, e := search(ctx, word)
+
+if e != nil {
+
+once.Do(func() {
+
+err = e
+
+})
+
+  
+
+return
+
+}
+
+  
+
+results[i] = result
+
+}(word, i)
+
+}
+
+  
+
+wg.Wait()
+
+  
+
+return results, err
+
+}
+
+  
+
+func main() {
+
+words := []string{"Go", "Rust", "PHP", "JavaScript", "Java"}
+
+results, err := coSearch(context.Background(), words)
+
+if err != nil {
+
+fmt.Println(err)
+
+return
+
+}
+
+  
+
+fmt.Println(results)
+
+}
+
+
+```
+
+There are a lot of details in the above code, let’s talk about them one by one.
+sync.WaitGroup{}Concurrency control
+
+_`sync.WaitGroup{}`_ The usage is very simple
+
+            -When a new goroutine is run, we need to call wg.Add(1)
+
+            -When a goroutine is finished running, we need to call wg.Done()
+
+            -wg.Wait()Let the program block here until all goroutines have finished running. 
+
+for _`coSearchIn`_ other words, waiting for all goroutines to complete, thus completing the task of the function and returning the final result. 
+
+```go
+var (
+
+wg = sync.WaitGroup{}
+
+//...省略其他代码
+
+)
+
+  
+
+for i, word := range words {
+
+wg.Add(1)
+
+  
+
+go func(word string, i int) {
+
+defer wg.Done()
+
+//...省略其他代码
+
+}(word, i)
+
+}
+
+  
+
+wg.Wait()
+
+```
+### forgoroutine in loop 
+This is a classic Go error, if used in goroutine _`forIterative variables`_, all goroutines will get the value of the last loop. For example, the following example does not output "a", "b", "c" but outputs _`"c", "c", "c"`_ 
+
+```go
+
+func main() {
+
+done := make(chan bool)
+
+  
+
+values := []string{"a", "b", "c"}
+
+for _, v := range values {
+
+go func() {
+
+fmt.Println(v)
+
+done <- true
+
+}()
+
+}
+
+  
+
+// wait for all goroutines to complete before exiting
+
+for _ = range values {
+
+<-done
+
+}
+
+}
+
+
+```
